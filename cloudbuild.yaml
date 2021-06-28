@@ -1,0 +1,22 @@
+steps:
+  #Unit Test
+  - name: python
+    entrypoint: /bin/sh
+    args: ["-c", 
+     "pip install -r requirements.txt && python -c \"import nltk; nltk.download('popular',download_dir='/home/nltk_data')\" && python -m unittest"]
+  
+  #Docker Build
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 
+            'us-central1-docker.pkg.dev/$PROJECT_ID/$_REPO_NAME/cleaner', '.']
+  
+  # Docker push to Google Artifact Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push',  'us-central1-docker.pkg.dev/$PROJECT_ID/$_REPO_NAME/cleaner']
+  
+  # Deploy to Cloud Run
+  - name: google/cloud-sdk
+    args: ['gcloud', 'run', 'deploy', 'cleaner', 
+           '--image=us-central1-docker.pkg.dev/$PROJECT_ID/$_REPO_NAME/cleaner', 
+           '--region', 'us-central1', '--platform', 'managed', 
+           '--allow-unauthenticated']

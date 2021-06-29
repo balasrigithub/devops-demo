@@ -6,7 +6,7 @@ steps:
      "pip install -r requirements.txt &&\ 
      python -c \"import nltk; nltk.download('popular', download_dir='/home/nltk_data')\" &&\
      export NLTK_DATA=/home/nltk_data &&\ 
-     python -m unittest"]
+     python -m unittest"] 
   
   #Docker Build
   - name: 'gcr.io/cloud-builders/docker'

@@ -49,3 +49,5 @@ if __name__ == "__main__":
             of words with similar meanings based on the context, so it is complex and takes more time. This is used \
                 where we need to retain the contextual information."
     print(clean(text)) 
+    print(clean(text))
+    
